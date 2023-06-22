@@ -1,0 +1,253 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Sniglet", "微軟正黑體", "Microsoft JhengHei", sans-serif;
+}
+
+body {
+  background-color: rgb(36, 31, 31);
+  color: white;
+
+  //開場動畫的部分
+  section.animation-wrapper {
+    //原先的背景色
+    background-color: white;
+    //同時設定這三者
+    //即使滾動卷軸，畫面也不會跑走
+    width: 100%;
+    height: 100vh;
+    //會創造新的堆疊環境
+    position: fixed;
+
+    //圖片放大的部分
+    section.animation {
+      margin-top: 10vh;
+      height: 80vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      div.hero {
+        max-width: 100%;
+        height: 0;
+
+        img {
+          width: 100%;
+          height: 100%;
+          //調整圖片和 box 的比例
+          //這邊是等比放大不裁切的 cover 整個 box
+          object-fit: cover;
+        }
+      }
+    }
+
+    //將新的背景色滑入的部分
+    div.slider {
+      width: 100%;
+      height: 100vh;
+      //定位元素，預設會在非定位元素之上
+      position: absolute;
+      top: 0;
+      left: 0;
+      //下移一層，避免擋住非定位元素 (section.animation)
+      z-index: -1;
+      //漸層
+      background-image: linear-gradient(
+        to right,
+        rgb(0, 0, 75) 0%,
+        rgb(14, 0, 45) 50%,
+        rgb(6, 1, 18) 100%
+      );
+    }
+  }
+
+  header {
+    nav {
+      height: 10vh;
+      display: flex;
+      align-items: center;
+      background-color: gray;
+      //陰影的部分
+      box-shadow: 0 8px 6px -6px black;
+
+      ul {
+        //刪除前面的點點
+        list-style-type: none;
+        display: flex;
+        justify-content: flex-start;
+
+        li {
+          margin: 0 2rem;
+
+          a {
+            text-decoration: none;
+            //預設情況下，瀏覽器會對超連結應用自己的預設樣式
+            //這可能會覆蓋部分或全部的 <body> 標籤的樣式
+            //所以這邊才要再設定文字的顏色
+            color: white;
+            font-size: 1.5rem;
+            transition: all 0.6s ease;
+            &:hover {
+              color: rgb(211, 50, 104);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  main {
+    section.main-part {
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      font-size: 3rem;
+    }
+
+    div.buttons {
+      button.btn {
+        padding: 0.5rem 1rem;
+        border: none;
+        margin: 1rem 0.5rem;
+        font-size: 1rem;
+        font-weight: 600;
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+
+    // form 的部分
+    div.all-inputs {
+      form {
+        padding: 0.5rem 0;
+
+        div.grader {
+          input,
+          select {
+            font-size: 1.05rem;
+            padding: 0.5rem;
+            margin: 0 0.35rem;
+            border: none;
+            border-radius: 0.25rem;
+            &::placeholder {
+              color: grey;
+            }
+          }
+
+          input.class-number {
+            width: 15vw;
+          }
+
+          input.class-credit {
+            width: 7vw;
+          }
+
+          //刪除的按鈕
+          button {
+            //把按鈕的外框消失
+            border: none;
+            //讓 button padding 的部分和 <body> 的背景色相同
+            //這樣就只會留下垃圾筒的圖示
+            background-color: rgb(36, 31, 31);
+            margin-left: 0.5rem;
+            cursor: pointer;
+            i {
+              font-size: 1.25rem;
+              color: plum;
+              //無法接收滑鼠事件
+              //對 :hover 或 click 不會做出反應
+              pointer-events: none;
+            }
+          }
+        }
+      }
+    }
+
+    // 新增 form 的按鈕
+    button.plus-button {
+      margin-top: 1rem;
+      width: 3rem;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+
+      i {
+        font-size: 1.5rem;
+        padding: 0.25rem;
+      }
+    }
+
+    // GPA 總成績計算的部分
+    div.result {
+      margin-top: 3rem;
+      width: 180px;
+      height: 180px;
+      border: 3px solid red;
+      //圓型外框
+      border-radius: 50%;
+      //讓字對齊中間
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      //加入動畫
+      animation: circle 3s linear infinite alternate;
+
+      #gpa-text {
+        margin-top: 0.7rem;
+        font-size: 1.2rem;
+      }
+
+      #result-gpa {
+        font-size: 3.5rem;
+        line-height: 3.5rem;
+        text-align: center;
+      }
+    }
+  }
+}
+
+//GPA 總成績外框的的動畫
+@keyframes circle {
+  0% {
+    border-color: red;
+  }
+  20% {
+    border-color: orange;
+  }
+  40% {
+    border-color: green;
+  }
+  80% {
+    border-color: blue;
+  }
+  100% {
+    border-color: darkmagenta;
+  }
+}
+
+//放大一個 form 的動畫 (code在JS)
+@keyframes scaleUp {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+//縮小一個 form 的動畫 (code在JS)
+@keyframes scaleDown {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(0);
+  }
+}
